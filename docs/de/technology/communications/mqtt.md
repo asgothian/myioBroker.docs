@@ -12,10 +12,10 @@
 * [Issues](#Issues)
 
 ## Allgemein
-Bei MQTT (Message Queuing Telemetry Transport) 
-handelt es sich um ein Netzwerkprotokoll, welches offen kommuniziert, 
+Bei MQTT (Message Queuing Telemetry Transport)
+handelt es sich um ein Netzwerkprotokoll, welches offen kommuniziert,
 und auch bei minimaler Netzwerkbandbreite eingesetzt werden kann.  
-MQTT eignet sich sehr gut für das Internet der Dinge (IoT). 
+MQTT eignet sich sehr gut für das Internet der Dinge (IoT).
 In Fachkreisen spricht man auch von  Machine-to-Machine-Kommunikation (M2M).  
 Es werden Daten (payloads) von Client zu Client über einen Broker ausgetauscht.  
 Ausführliche Informationen können unter den folgenden Links aufgerufen werden.  
@@ -28,97 +28,89 @@ Ausführliche Informationen können unter den folgenden Links aufgerufen werden.
 ## Protokoll
 
 ?> **Hinweis**:  
-     In diesem Abschnitt wird nur auf den gängigsten Weg, 
+     In diesem Abschnitt wird nur auf den gängigsten Weg,
 	 MQTT zu nutzen, eingegangen.  
 	 Es bestehen viel mehr Möglichkeiten, wie man MQTT nutzen kann.  
-	 Hier alle Möglichkeiten aufzuzählen, 
+	 Hier alle Möglichkeiten aufzuzählen,
 	 würde den Rahmen dieser Dokumentation überschreiten.  
 
-  
+
 ![](https://raw.githubusercontent.com/hydrotec468/test-md.docs/main/docs/de/media/Doku_mqtt_03.png)  
-  
-Der MQTT-Broker ist die zentrale Anlaufstelle für die MQTT-Clients. 
-Ein Client muss an dem Broker angemeldet sein, damit dieser seine *Payloads*, 
-über die *Topics*, dem Broker mitteilen (*Publish*), 
-oder sie empfangen (*Subsribe*) kann. 
-Der Broker akzeptiert erst einmal alle gesendeten *Payloads*, 
-in den entsprechenden *Topics* der Clients, 
-und stellt sie weiteren Clients zur Verfügung. 
-Damit ein Client, den eines anderen Clients zur Verfügung gestellten *Payload* 
+
+Der MQTT-Broker ist die zentrale Anlaufstelle für die MQTT-Clients.
+Ein Client muss an dem Broker angemeldet sein, damit dieser seine *Payloads*,
+über die *Topics*, dem Broker mitteilen (*Publish*),
+oder sie empfangen (*Subscribe*) kann.
+Der Broker akzeptiert erst einmal alle gesendeten *Payloads*,
+in den entsprechenden *Topics* der Clients,
+und stellt sie weiteren Clients zur Verfügung.
+Damit ein Client, den eines anderen Clients zur Verfügung gestellten *Payload*
 empfangen kann, muss er zuerst den zugehörigen *Topic* abonnieren.  
 
-Was steckt hinter den Begriffen *Topic*, *Payload* und *abonnieren*?  
-Unter *Topic* kann man sich eine Art Verzeichnisstruktur vorstellen. 
-Diese Struktur wird meistens von den Herstellern vorgegeben, 
-kann jedoch ebenso von Anwendern definiert werden. 
-Kommt darauf an, um was für eine Art von Gerät es sich handelt. 
-Grundsätzlich wird in einer Pfadangabe definiert, unter welcher Rubrik, 
-von welchem Gerät und in welcher Sparte sich die Information (*Payload*) befindet.  
+### Begriffe
 
-Beispiel  
+**Topic**
+
+Was steckt hinter den Begriffen *Topic*, *Payload* und *abonnieren*?  
+Unter *Topic* kann man sich eine Art Verzeichnisstruktur vorstellen.
+Diese Struktur wird üblicherweise vom Client vorgegeben. Im Fall von Geräten werden die Vorgaben daher meistens von den Herstellern gemacht. In Situationen wo der Anwender die Kommunikation zwischen mehreren Clients selber definiert können Anwenderdefinierte *Topics* vorgegeben werden.
+Es ist Üblich im Topic eine Strukturierung vorzugeben die auf der einen Seite eine Identifikation von vergleichbaren *Payloads* erlaubt, auf der anderen Seite aber auch eine klare Zuordnung zu den einzelnen Devices gewährleistet.  
+
+Beispiel :
 `<Rubrik>/<Gerät>/<Sparte>/<Attribut>`  
 
-Bei *Payload* ist die eigentliche Nachricht gemeint.  
-Der Inhalt einer Nachricht, kann sich folgendermaßen zusammensetzen. 
-Wobei es da keine direkten Richtlinien gibt, wie sich so eine Nachricht aufbaut. 
-In den meisten Fällen wird das Format *json* verwendet. 
-Genauso ist auch nur ein *attribute* möglich.  
+**Payload**
 
-Beispiele  
-Format *json*  
-`{"state": "online"}`  
-Format *atribute*  
-`online`  
+Der *Payload* bezeichnet den Inhalt der Nachricht. Es gibt für den *Payload* keine festen Vorgaben wie dieser struktuiert werden soo, es haben sich aber verschiedene Methoden etabliert die öfter zu finden sind.
+Bei strukturiertem Payload liegt zumeist eine Formatierung in *JSON* vor, so das in einem *Payload* mehrere Informationen übergeben werden können.
+Unstrukturierter Payload ist üblicherweise einfach eine Zeichenkette die vom *Subscriber* der Nachricht ausgewertet werden muss.
 
-Damit der Broker weiß, welche Nachrichten ein Client bekommen möchte, 
-muss der Client die Nachrichten anfordern (*abonnieren*). 
-Das geschieht in der Form, das der Client unter dem Kanal *Subscribe* 
-den gewünschten *Topic* an den Broker übermittelt. 
-Innerhalb dieser *Topics* kann mit Wildcards gearbeitet werden. 
-Die zwei gängigsten Wildcards sind ***#*** und ***+***.  
+Beispiele für verschiedene Payloads sind
 
-Angenommen, das *Topic* ist folgendermaßen aufgebaut.  
-`myhome/client/sensors/temperature`  
-Dann kann man anschließend die angeforderten *Topics* mit den Wildcards anpassen.  
-  
-Hier werden alle Attribute, 
-welche unter "myhome/client/sensors" gesendet werden, empfangen.  
-`myhome/client/sensors/#`  
+- Format *JSON*: `{"state": "online"}`  
+- Format *atribute*:  `online`  
 
-Hier werden alle Sparten (inkl. aller Attribute), 
-welche unter "myhome/client" gesendet werden, empfangen.  
-`myhome/client/#`  
+**Subscription**
 
-Hier wird alles unterhalb der Rubrik, 
-welche unter "myhome" gesendet werden, empfangen.  
-`myhome/#`  
+Damit der Broker weiß welche Nachrichten ein Client bekommen möchte
+muss der Client die Nachrichten anfordern (*abonnieren*).
+Das geschieht durch die Übermittlung des gewünschten *Topic* in dem Kanal  *Subscribe*. Bei der Bezeichnung des *Topics* sind Wildcards erlaubt so das mit einer Nachricht vom Client eine Gruppe von *Topics* *subscribed* werden können. Jedes mal wenn der Broker eine Nachricht zu einem dieser *Topics* erhält leitet er dieses and den entsprechenden Client weiter.
+Die zwei gängigsten Wildcards sind ***#*** und ***+***. Die Wildcard ***#*** steht dabei für beliebige Topics unterhalb des fest vorgegebenen Anteils, während ***+*** eine einzelne Ebene im Topic markiert. Dieses ist am Besten an einigen Beispielen zu erklären:  
 
-Hier werden, von allen Clients, die *Payloads* mit der Rubrik, 
-der Sparte und dem Attribut, 
-welche unter "myhome/client(a/b/c/...)/sensors/temperature" gesendet werden, 
-empfangen.  
-`myhome/+/sensors/temperature`  
+Angenommen, der Client 'MultiSensor1' *publisht* mehrere *Topics* nach dem folgenden Muster:
+```
+myhome/MultiSensor1/sensors/temperature
+myhome/MultiSensor1/sensors/humidity
+myhome/MultiSensor1/sensors/pressure
+myhome/MultiSensor1/status
+```  
 
-Hier werden, von allen Clients, die *Payloads* mit der Rubrik, 
-und der Sparte, 
-welche unter "myhome/client(a/b/c/...)/sensors" gesendet werden, empfangen.  
-`myhome/+/sensors/#`       
+In diesem Fall kann man durch den geschickten Einsatz von Wildcards mehrere *Topics* auf ein mal abonnieren.  
 
-Wie zu erkennen ist, kann man die Wildcards auch kombinieren.  
+Um die Werte aller Sensoren
+welche unter "myhome/MultiSensor1/sensors" gesendet werden zu empfangen reicht ein *subscribe* mit `myhome/MultiSensor1/sensors/#`  
 
-Der Aufbau der *Topics* und die Verwendung von Wildcards, 
-wie sie innerhalb des Adapters verwendet werden, 
-ist der jeweiligen Adapterreferenz zu entnehmen.  
+Um alle oben angegebenen *Topics* zu abonnieren würde `myhome/MultiSensor1/#` ausreichen.  
 
-Zum besseren Verständnis, sind unter [Best Practice / Tutorial](#best-practice--tutorial) 
+Für den Fall das unter 'myhome' noch weitere *Topics* existieren können diese alle über `myhome/#` abonniert werden.
+
+Um nur die Temperaturwerte von mehreren Multisensoren die nach dem oben angegebenen Schema ihre Werte *publishen* zu erhalten ist ein *subscribe* mit `myhome/+/sensors/temperature` der einfachste Weg.
+
+Auch eine Kombination von ***#*** und ***+*** ist möglich. So bewirkt das subscription Topic `myhome/+/sensors/#` das alle Werte (Temperatur, Luftfeuchtigkeit, Luftdruck) von allen vorhandenen Sensoren abonniert werden.       
+
+Der Aufbau der *Topics* und die Verwendung von Wildcards
+wie sie innerhalb des Adapters verwendet werden
+ist in der jeweiligen Adapterreferenz beschrieben.  
+
+Zum besseren Verständnis, sind unter [Best Practice / Tutorial](#best-practice--tutorial)
 ein paar Beispiele aufgeführt.  
 
 ###### [zurück](#Inhalt)
 
 ## Adapter
-Aktuell stehen in ioBroker drei Adapter unter dem Repository "*default*", 
-und vier Adapter unter dem Repository "*latest*" zur Verfügung. 
-Mit diesen Adaptern können Geräte, welche das *MQTT-Protokoll* sprechen, 
+Aktuell stehen in ioBroker drei Adapter unter dem Repository "*default*",
+und vier Adapter unter dem Repository "*latest*" zur Verfügung.
+Mit diesen Adaptern können Geräte, welche das *MQTT-Protokoll* sprechen,
 zu ioBroker angebunden werden können.  
 ![](https://raw.githubusercontent.com/hydrotec468/test-md.docs/main/docs/de/media/Doku_mqtt_01.png)  
 
@@ -147,7 +139,7 @@ zu ioBroker angebunden werden können.
  - kann sowohl als *Client*, wie auch als *Broker* konfiguriert werden  
  - in der *Client* Version, wird ein externer *Broker* (z.B. [mosquitto](https://mosquitto.org "https://mosquitto.org") ) vorausgesetzt  
  - spricht grundsätzlich mit allen Geräten, welche über das MQTT-Protokoll kommunizieren  
- 
+
 4.) [MQTT-Client](https://github.com/Pmant/ioBroker.mqtt-client#readme "https://github.com/Pmant/ioBroker.mqtt-client#readme")
 
 | **Repository** | [![](http://iobroker.live/badges/mqtt-client-stable.svg) ![](http://img.shields.io/npm/v/iobroker.mqtt-client.svg)](https://www.npmjs.com/package/iobroker.mqtt-client "https://www.npmjs.com/package/iobroker.mqtt-client")|
