@@ -38,14 +38,12 @@ Ausführliche Informationen können unter den folgenden Links aufgerufen werden.
 ![](https://raw.githubusercontent.com/hydrotec468/test-md.docs/main/docs/de/media/Doku_mqtt_03.png)  
 
 Der MQTT-Broker ist die zentrale Anlaufstelle für die MQTT-Clients.
-Ein Client muss an dem Broker angemeldet sein, damit dieser seine *Payloads*,
-über die *Topics*, dem Broker mitteilen (*Publish*),
-oder sie empfangen (*Subscribe*) kann.
-Der Broker akzeptiert erst einmal alle gesendeten *Payloads*,
-in den entsprechenden *Topics* der Clients,
-und stellt sie weiteren Clients zur Verfügung.
-Damit ein Client, den eines anderen Clients zur Verfügung gestellten *Payload*
-empfangen kann, muss er zuerst den zugehörigen *Topic* abonnieren.  
+Ein Client muss an dem Broker angemeldet sein damit dieser seine *Payloads*
+über die *Topics* dem Broker mitteilen (*Publish*)
+oder empfangen (*Subscribe*) kann.
+Der Broker akzeptiert generell *Payloads* zu sämtlichen *Topics* die ein Client *published*. Sofern zu einem *Topic* eine *Subscripton* eines Clients existiert wird die Nachricht (*Topic* und *Payload*) an diesen Client übermittelt.
+Damit ein Client die von anderen Clients zur Verfügung gestellten *Payload*
+empfangen kann muss er zuerst die zugehörigen *Topics* abonnieren.  
 
 ### Begriffe
 
