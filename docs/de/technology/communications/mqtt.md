@@ -98,9 +98,9 @@ Um nur die Temperaturwerte von mehreren Multisensoren die nach dem oben angegebe
 
 Auch eine Kombination von ***#*** und ***+*** ist möglich. So bewirkt das subscription Topic `myhome/+/sensors/#` das alle Werte (Temperatur, Luftfeuchtigkeit, Luftdruck) von allen vorhandenen Sensoren abonniert werden.       
 
-Der Aufbau der *Topics* und die Verwendung von Wildcards
+Der Aufbau der *Topics* im Detail und die Verwendung von Wildcards
 wie sie innerhalb des Adapters verwendet werden
-ist in der jeweiligen Adapterreferenz beschrieben.  
+kann - soweit sie vom Adapter vorgegeben werden - der jeweiligen Adapterreferenz entnommen werden.  
 
 Zum besseren Verständnis, sind unter [Best Practice / Tutorial](#best-practice--tutorial)
 ein paar Beispiele aufgeführt.  
