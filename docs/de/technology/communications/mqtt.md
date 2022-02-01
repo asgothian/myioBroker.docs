@@ -47,9 +47,10 @@ empfangen kann muss er zuerst die zugehörigen *Topics* abonnieren.
 
 ### Begriffe
 
+Was steckt hinter den Begriffen *Topic*, *Payload* und *abonnieren*?  
+
 **Topic**
 
-Was steckt hinter den Begriffen *Topic*, *Payload* und *abonnieren*?  
 Unter *Topic* kann man sich eine Art Verzeichnisstruktur vorstellen.
 Diese Struktur wird üblicherweise vom Client vorgegeben. Im Fall von Geräten werden die Vorgaben daher meistens von den Herstellern gemacht. In Situationen wo der Anwender die Kommunikation zwischen mehreren Clients selber definiert können Anwenderdefinierte *Topics* vorgegeben werden.
 Es ist Üblich im Topic eine Strukturierung vorzugeben die auf der einen Seite eine Identifikation von vergleichbaren *Payloads* erlaubt, auf der anderen Seite aber auch eine klare Zuordnung zu den einzelnen Devices gewährleistet.  
