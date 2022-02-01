@@ -69,7 +69,7 @@ Beispiele für verschiedene Payloads sind
 - Format *JSON*: `{"state": "online"}`  
 - Format *atribute*:  `online`  
 
-**Subscription**
+**Subscription** / **abonnieren**
 
 Damit der Broker weiß welche Nachrichten ein Client bekommen möchte
 muss der Client die Nachrichten anfordern (*abonnieren*).
